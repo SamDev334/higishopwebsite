@@ -19,7 +19,6 @@
    16. Botões flutuantes
    17. Animações de entrada (reveal)
    18. Responsivo
-   19. Acessibilidade (reduced motion)
    ========================================================================== */
 
 /* 01. TOKENS ------------------------------------------------------------- */
@@ -510,13 +509,4 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   .fsc__card { padding: 30px 22px; }
   .location__card { padding: 24px; }
   .video__play { width: 68px; height: 68px; margin: -34px 0 0 -34px; }
-}
-
-/* 19. REDUCED MOTION ---------------------------------------------------- */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .js .reveal { opacity: 1; transform: none; }
-  .word > span { transform: none; }
-  .marquee__track { animation: none; }
 }

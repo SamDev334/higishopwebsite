@@ -10,7 +10,6 @@
   const $  = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ------------------------------------------------------------------
@@ -42,12 +41,10 @@
       if (this.progress) this.progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
       this.toTop?.classList.toggle('is-visible', y > 700);
 
-      if (!prefersReducedMotion) {
-        this.parallax.forEach(el => {
-          if (y > window.innerHeight * 1.2) return; // fora da vista
-          el.style.transform = `translate3d(0, ${y * parseFloat(el.dataset.parallax)}px, 0)`;
-        });
-      }
+      this.parallax.forEach(el => {
+        if (y > window.innerHeight * 1.2) return; // fora da vista
+        el.style.transform = `translate3d(0, ${y * parseFloat(el.dataset.parallax)}px, 0)`;
+      });
     }
   };
 
@@ -111,7 +108,7 @@
       });
 
       const items = $$('.reveal');
-      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      if (!('IntersectionObserver' in window)) {
         items.forEach(el => el.classList.add('is-visible'));
         return;
       }
@@ -165,7 +162,7 @@
   const Spotlight = {
     init() {
       const hero = $('.hero');
-      if (!hero || !hasFinePointer || prefersReducedMotion) return;
+      if (!hero || !hasFinePointer) return;
       hero.addEventListener('pointermove', e => {
         const r = hero.getBoundingClientRect();
         hero.style.setProperty('--mx', `${e.clientX - r.left}px`);
@@ -180,7 +177,7 @@
   const Tilt = {
     max: 7,
     init() {
-      if (!hasFinePointer || prefersReducedMotion) return;
+      if (!hasFinePointer) return;
       $$('[data-tilt]').forEach(card => {
         card.addEventListener('pointermove', e => {
           const r = card.getBoundingClientRect();
@@ -205,7 +202,7 @@
   const Magnetic = {
     strength: 0.25,
     init() {
-      if (!hasFinePointer || prefersReducedMotion) return;
+      if (!hasFinePointer) return;
       $$('[data-magnetic]').forEach(btn => {
         btn.addEventListener('pointermove', e => {
           const r = btn.getBoundingClientRect();
@@ -226,7 +223,7 @@
   const Bubbles = {
     init() {
       this.canvas = $('#bubbles');
-      if (!this.canvas || prefersReducedMotion) return;
+      if (!this.canvas) return;
 
       this.ctx = this.canvas.getContext('2d');
       this.bubbles = [];
